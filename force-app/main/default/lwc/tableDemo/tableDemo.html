@@ -1,0 +1,58 @@
+<template>
+	<div class="slds-p-around_medium lgc-bg">
+			<lightning-card title="商品リスト" class="merchand-list-card">
+					<div class="lightning-card-box">
+							<lightning-spinner lwc:if={tableLoading} size="small" alternative-text="Loading..."></lightning-spinner>
+							<template lwc:if={tableDisp}>
+									<div class="pagination-box">
+											<lightning-icon size="xx-small" icon-name="utility:chevronleft" onclick={handlePrevPage} alternative-text="prev" title="prev"></lightning-icon>
+											<span class="page-pagesize">
+											<lightning-input 
+													variant="label-hidden" 
+													class="page-input" 
+													style="min-height: 20px;"
+													type="number" 
+													onblur={handlePageInput} 
+													value={currentPage}
+													onkeydown={handleKeydown}
+													message-when-bad-input=" "
+											></lightning-input>
+											<label class="separation">/</label>
+											<label>{totalPage}</label>
+											</span>
+											<lightning-icon size="xx-small" icon-name="utility:chevronright" onclick={handleNextPage} alternative-text="next" title="next"></lightning-icon>
+											<span style="margin-left: 8px;">total: {listtotal}</span>
+									</div>
+									<lightning-datatable
+											key-field="Id"
+											onrowaction={handleRowAction}
+											data={pageList}
+											columns={columns}
+											onsort={handleSort}
+											sorted-by={sortedBy}
+											sorted-direction={sortedDirection}
+											row-number-offset={rowNumberOffset}
+											show-row-number-column
+											oncellchange={handleCellChange}
+											onrowselection={handleRowSelection}
+											suppress-bottom-bar
+											selected-rows={getSlectedRowsKey}
+											is-loading={tableLoadingState}
+									>
+									</lightning-datatable>
+									<div class="card-footer" lwc:if={tableDisp}>
+									</div>
+							</template>
+							<template lwc:else>
+									<div class="no-date-box">
+											<p>データなし</p>
+									</div>
+							</template>
+					</div>
+			</lightning-card>
+	</div>
+	<!-- <lightning-input label="商品マスタID" name="orderName"  onchange={handleOrderNameChange} value={productMasterId}></lightning-input> -->
+	<template lwc:if={isLoading}>
+			<lightning-spinner alternative-text="Loading..."></lightning-spinner>
+	</template>
+</template>

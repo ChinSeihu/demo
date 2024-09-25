@@ -1,0 +1,22 @@
+.c-container {
+    border-top: 1px solid #d8dde6;
+    margin: 10px 10px 20px 10px;
+}
+.header-column {
+    /* padding: 0 2rem; */
+}
+.field-title {
+    font-size: .75rem;
+    line-height: 1.25;
+    color: #54698d;
+    margin-bottom: .25rem;
+}
+
+.c-container .slds-grid {
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.form-item:nth-child(2) {
+    width: 180px;
+}

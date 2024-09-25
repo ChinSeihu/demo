@@ -1,0 +1,10 @@
+<template>
+	<!-- <lightning-card title="Record Details"> -->
+		<lightning-record-view-form record-id={recordId} object-api-name={objectApiName}>
+				<lightning-output-field field-name={name}></lightning-output-field>
+				<lightning-output-field field-name="category__c"></lightning-output-field>
+				<!-- 添加更多字段 -->
+		</lightning-record-view-form>
+		<lightning-button onclick={handleRecord}>test</lightning-button>
+<!-- </lightning-card> -->
+</template>

@@ -1,0 +1,8 @@
+<template>
+    <template lwc:if={isShow}>
+        <p>ようこそ：{userInfo.fullName}さん</p>
+    </template>
+    <template if:false={isShow}>
+        login....
+    </template>
+</template>
