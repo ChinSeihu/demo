@@ -56,6 +56,10 @@
     bottom: 100% !important;
 }
 
+:deep .slds-form-element__help {
+    display: none !important;
+}
+
 .pagination-box {
     display: flex;
     justify-content: flex-end;
@@ -82,3 +86,81 @@
     margin: 0 12px;
     align-items: center;
 }
+
+
+/* 
+# 编码声明
+$OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+# 新增路径验证
+$targetPaths = 'classes', 'triggers'
+$targetPaths | ForEach-Object {
+    if (-not (Test-Path $_)) {
+        Write-Output "[错误] 路径不存在: $_"
+        exit
+    }
+}
+
+# 显示扫描路径
+Write-Output "正在扫描路径: $($targetPaths -join ', ')"
+
+# 获取文件
+$files = Get-ChildItem -Path $targetPaths -Recurse -File | Where-Object { 
+    $_.Name -notlike '*test*' -and $_.Name -ne 'meta.xml' 
+}
+
+# 调试输出文件数量
+Write-Output "[调试] 找到 $($files.Count) 个有效文件"
+
+if ($files.Count -gt 0) {
+    # 初始化统计变量
+    $totalChars = 0
+    $maxCount = 0
+    $minCount = [int]::MaxValue
+    $maxFile = ""
+    $minFile = ""
+
+    # 遍历文件（新增进度显示）
+    $i = 0
+    foreach ($file in $files) {
+        $i++
+        Write-Progress -Activity "正在分析文件" -Status "$i/$($files.Count)" -PercentComplete ($i/$files.Count*100)
+        
+        try {
+            $content = Get-Content -Path $file.FullName -Raw -ErrorAction Stop
+            $charCount = $content.Length
+            
+            # 调试输出大文件信息
+            if ($charCount -gt 10000) {
+                Write-Output "[调试] 大文件: $($file.Name) ($charCount 字符)"
+            }
+
+            $totalChars += $charCount
+
+            if ($charCount -gt $maxCount) {
+                $maxCount = $charCount
+                $maxFile = $file.FullName
+            }
+
+            if ($charCount -lt $minCount) {
+                $minCount = $charCount
+                $minFile = $file.FullName
+            }
+        }
+        catch {
+            Write-Output "[警告] 无法读取文件: $($file.FullName)"
+        }
+    }
+
+    # 输出结果（格式化输出）
+    Write-Output "`n===== 统计结果 ====="
+    Write-Output "1. 总文件数: $($files.Count)"
+    Write-Output "2. 总字符数: $totalChars"
+    Write-Output "3. 最大文件: $maxCount 字符 ($maxFile)"
+    Write-Output "4. 最小文件: $minCount 字符 ($minFile)"
+    Write-Output "5. 平均字符数: $([math]::Round($totalChars/$files.Count, 2))"
+}
+else {
+    Write-Output "未找到符合要求的文件"
+} */
